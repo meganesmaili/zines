@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajouter une nouvelle categorie{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form)}}
+
+    <div class="w-50 m-auto py-5">
+
+            {% for message in app.flashes('success') %}
+
+                <div class = "alert alert-success">
+                    {{ message }}
+                </div>
+                
+            {% endfor %}
+
+            <div class="mb-3">
+
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+
+                {{ form_label(form.color) }}
+                {{ form_widget(form.color) }}
+                {{ form_errors(form.color) }}
+     
+
+            </div>
+
+            <button class ="btn btn-dark">Enregistrer</button>
+
+            
+
+        {{ form_end(form)}}
+
+    </div>
+    
+{% endblock %}

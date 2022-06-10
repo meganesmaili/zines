@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MagazineController!{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+
+                <div class = "alert alert-success">
+                    {{ message }}
+                </div>
+                
+    {% endfor %}
+
+
+<a class='btn btn-dark m-4' href="{{ path('app_magazine_new') }}"> Add +</a>
+
+    <table class='table table-dark table-hover w-50 m-auto'>
+        <thead>
+            <tr>    
+                <th>Name</th>
+                <th>Détails</th>
+                <th>Edier</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for magazine in magazines %}
+                <tr>
+                    <td>{{ magazine.name }}</td>
+                    <td>
+                        <a href= "{{ path('app_id', { id:magazine.id }) }}">Voir plus de détails...</a>
+                    </td>
+                    <td><a href="{{ path('app_magazine_edit', { id:magazine.id }) }}"><button>Editer</button></a></td>
+                    <td>
+                        
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
+            
+                        
+                    </td>
+                        
+                </tr>
+            {% endfor %}
+
+            <div class="modal" tabindex="-1" id="exampleModal">
+                                <div class="modal-dialog" >
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Suppresion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Etes-vous sur de vouloir supprimer ce magazine ?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ path('app_magazine_delet', { id:magazine.id }) }}" method="post">
+                                                <input type="hidden" name='token' value="{{ csrf_token('delet-magazine-'~ magazine.id) }}">
+                                                <button class="btn btn-dark">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+        </tbody>
+        
+    </table>
+
+    <a class="btn btn-dark m-5" href="{{ path('app_categorie') }}"> Mes categories </a>
+{% endblock %}

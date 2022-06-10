@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajouter un nouveau magazine{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+
+    <div class="w-50 m-auto py-5">
+
+        <div class="mb-3 text-center">
+        
+            <p>{{ form_label(form.name) }}</p>
+            <p>{{ form_widget(form.name) }}</p>
+            <p>{{ form_errors(form.name) }}</p> 
+
+            <p>{{ form_label(form.price) }}</p>
+            <p>{{ form_widget(form.price) }}</p>
+            <p>{{ form_errors(form.price) }}</p>
+
+            <p>{{ form_label(form.created_at) }}</p>
+            <p>{{ form_widget(form.created_at) }}</p>
+            <p>{{ form_errors(form.created_at) }}</p>
+     
+            <p>{{ form_label(form.categorie)}}</p>
+            <p>{{ form_widget(form.categorie)}}</p>
+            <p>{{ form_errors(form.categorie)}}</p>
+     
+        
+        </div>
+        <div class="w-25 m-auto ">
+           <button class ="btn btn-dark">Enregistrer</button>
+        </div>
+        
+
+    {{ form_end(form)}} 
+    
+    </div>
+    
+{% endblock %}
