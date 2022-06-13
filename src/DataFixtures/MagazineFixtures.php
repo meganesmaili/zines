@@ -38,7 +38,9 @@ class MagazineFixtures extends Fixture implements DependentFixtureInterface
             $magazine->setPrice($faker->numberBetween(6,30));
             $magazine->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-10 years')));
             $magazine->setCategorie($this->getReference("categorie_".  rand(0, 14)));
+            $magazine->setDescription($faker->realText(100, 2));
 
+            $this->addReference("magazine_$i", $magazine);
             // Met de côté les données en attente d'insertion
             $manager->persist($magazine);
         }

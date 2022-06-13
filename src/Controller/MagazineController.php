@@ -8,20 +8,28 @@ use App\Form\CategorieFormType;
 use App\Form\MagazineFormType;
 use App\Repository\CategorieRepository;
 use App\Repository\MagazineRepository;
+use App\Repository\StockRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class MagazineController extends AbstractController
 {
     #[Route('/', name: 'app_magazine')]
-    public function index(MagazineRepository $magazineRepository): Response
-    {
+    public function index(MagazineRepository $magazineRepository, StockRepository $stockRepository, PaginatorInterface $paginatoreInterface, Request $request): Response
+    {   
+        $magazines = $paginatoreInterface->paginate(
+            $magazineRepository->findAll(), //Requête SQL/DQL
+            $request->query->getInt('page', 1), //Numéritation des pages 
+            $request->query->getInt('numbers', 2) //Nombre d'enregistrement par page
+        );
         return $this->render('magazine/index.html.twig', [
-            'magazines' => $magazineRepository->findAll(),
-            'details'=>$magazineRepository->find(3)
+            'magazines' => $magazines,
+            'details'=>$magazineRepository->find(3),
+            'stocks'=> $stock->findAll(),
         ]);
     }
 
@@ -32,13 +40,22 @@ class MagazineController extends AbstractController
             'magazine' => $magazineRepository->find($id)
         ]);
     }
+
     #[Route('/categorie', name:'app_categorie')]
-    public function allCategorie(CategorieRepository $categorieRepository) :Response
+    public function allCategorie(CategorieRepository $categorieRepository, PaginatorInterface $paginatoreInterface, Request $request) :Response
     {
+        $categories = $paginatoreInterface->paginate(
+            $categorieRepository->findAll(), //Requête SQL/DQL
+            $request->query->getInt('page', 1), //Numéritation des pages 
+            $request->query->getInt('numbers', 2) //Nombre d'enregistrement par page
+        );
+
         return $this->render('magazine/allCategorie.html.twig', [
-            'categories'=> $categorieRepository->findAll()
+            'categories'=> $categories
         ]);
     }
+
+
     #[Route('/categorie/new', name:'app_categorie_new')]
     public function newCategorie(Request $request, CategorieRepository $categorieRepository) :Response
     {
@@ -53,8 +70,8 @@ class MagazineController extends AbstractController
 
             $this->addFlash('success', 'Votre categorie a bien été ajouté !');
 
-            $categorie = new Categorie();
-            $form = $this->createForm(CategorieFormType::class, $categorie);
+            //$categorie = new Categorie();
+            //$form = $this->createForm(CategorieFormType::class, $categorie);
         }
 
         return $this->render('magazine/newCategorie.html.twig', [
@@ -127,8 +144,8 @@ class MagazineController extends AbstractController
                'Votre magazine a bien été ajouté !'
             );
 
-            $magazine = new Magazine();
-            $form = $this->createForm(MagazineFormType::class, $magazine);
+            //$magazine = new Magazine();
+            //$form = $this->createForm(MagazineFormType::class, $magazine);
 
             return $this->redirectToRoute('app_magazine');
             
@@ -179,5 +196,7 @@ class MagazineController extends AbstractController
 
  
     }
+
+
    
 }

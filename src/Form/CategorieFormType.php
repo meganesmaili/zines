@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CategorieFormType extends AbstractType
 {
@@ -22,6 +23,10 @@ class CategorieFormType extends AbstractType
                 'label'=> "Choix de la couleur",
                 'required' =>false,
             ])
+            ->add('coverFile', VichImageType::class, [
+                'imagine_pattern' => 'thumbnail', //Applique une configuration LiipImagine sur l'image
+                'download_label' => false //Enlève le lien de téléchargement
+           ]);
         ;
     }
 

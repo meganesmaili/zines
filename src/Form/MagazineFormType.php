@@ -8,9 +8,11 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MagazineFormType extends AbstractType
 {
@@ -36,7 +38,17 @@ class MagazineFormType extends AbstractType
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'name'
-            ]);
+            ])
+
+            ->add('description', TextareaType::class, [
+                'label' => 'Description', 
+                'required' => false 
+           ])
+
+           ->add('profileFile', VichImageType::class, [
+            'imagine_pattern' => 'thumbnail', //Applique une configuration LiipImagine sur l'image
+            'download_label' => false //Enlève le lien de téléchargement
+       ]);
         ;
     }
 
