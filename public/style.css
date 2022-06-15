@@ -1,0 +1,23 @@
+.bckgrndnv 
+{
+    background-color : #8FCACA;
+
+}
+.bckgrndnv ul li a
+{
+    font-size: 18px;
+    list-style: none;
+    list-style-type: none;
+    color: black;
+}
+.bckgrndnv ul li
+{
+    text-decoration: none;
+
+}
+
+body
+{
+    background-color: #D4F0F0;
+}
+   

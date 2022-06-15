@@ -53,8 +53,8 @@ class Magazine
     )]
     private $profileFile;
 
-    #[ORM\OneToMany(mappedBy: 'magazines', targetEntity: Stock::class, orphanRemoval: true)]
-    private $stock;
+    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Stock::class)]
+    private $stocks;
 
     public function __construct()
     {
@@ -167,18 +167,18 @@ class Magazine
         return $this;
     }
 
-    /**
+   /**
      * @return Collection<int, Stock>
      */
-    public function getStock(): Collection
+    public function getStocks(): Collection
     {
-        return $this->stock;
+        return $this->stocks;
     }
 
     public function addStock(Stock $stock): self
     {
-        if (!$this->stock->contains($stock)) {
-            $this->stock[] = $stock;
+        if (!$this->stocks->contains($stock)) {
+            $this->stocks[] = $stock;
             $stock->setMagazine($this);
         }
 
@@ -187,7 +187,7 @@ class Magazine
 
     public function removeStock(Stock $stock): self
     {
-        if ($this->stock->removeElement($stock)) {
+        if ($this->stocks->removeElement($stock)) {
             // set the owning side to null (unless already changed)
             if ($stock->getMagazine() === $this) {
                 $stock->setMagazine(null);

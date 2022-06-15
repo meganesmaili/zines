@@ -39,18 +39,7 @@ class MagazineRepository extends ServiceEntityRepository
         }
     }
 
-    public function allMagazines(string $name, int $price)
-    {
-        return $this->createQueryBuilder('m')
-            ->where('a.name = :name')
-            ->orWhere('a.price = :price')
-            ->setParameters([
-                'title'=> $name,
-                'description'=> $price
-            ])
-            ->getQuery()
-            ->getResult();
-    }
+    
 
 //    /**
 //     * @return Magazine[] Returns an array of Magazine objects

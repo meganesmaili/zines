@@ -13,16 +13,16 @@ class Stock
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 60)]
     private $name;
 
-    #[ORM\Column(type: 'string', length: 120)]
+    #[ORM\Column(type: 'string', length: 30)]
     private $place;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $created_at;
 
-    #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'stock')]
+    #[ORM\ManyToOne(targetEntity: Magazine::class, inversedBy: 'stocks')]
     #[ORM\JoinColumn(nullable: false)]
     private $magazine;
 
