@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Admin!{% endblock %}
+
+{% block javascripts %}
+
+    {#Récupère le contenu de block "javascripts" de la base.html.twih pour éviter que son contenu ne soit écrasé par celui-ci #}
+     {{parent()}}
+    <script src="{{asset('script.js')}}" defer></script>
+
+{% endblock %}
+
+{% block body %}
+
+    <nav class=" pt-5 bckgrndnv">
+        <ul class="nav">   
+            <li class="nav-item">
+                <a class="nav-link " href="{{ path('app_magazine') }}">Magazines</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{{ path('app_categorie') }}">Categories</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{{ path('app_admin') }}">Utilisateurs</a>
+            </li>
+            <li>
+                <a href="{{ path('app_logout') }}" class='nav-link'>Se deconnecter</a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <div class='container px-4'>
+        <div class="row gx-5">
+            <div class="col m-4">
+                <form method="GET">
+                    <label for="numbers">Nombre de Utilisateurs par page</label>
+                    <input type="hidden" name="page" value=" {{ app.request.query.get("page", 1) }}">
+                    <select name="numbers" id="numbers" onchange ="this.form.submit();">
+                        <option value="5">Choisissez une option</option>
+                        <option value="5">5</option>
+                        <option value="3">3</option>
+                        <option value="1">1</option>
+                    </select>
+                </form>
+            </div>
+        </div>    
+    </div>
+
+    <table class='table table-light table-hover w-75 m-auto'>
+        <thead>
+            <tr>    
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Choix du nouveau rôle</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody class="mb-3">
+            {% for user in users %}
+                <tr>
+                    <td> {{ user.id }} </td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td id="roles_{{ user.id }}"> {{user.roles|first}}</td>
+                    
+                    
+                    <td>
+                        <div class="btn-group">
+                            <button  data-id="{{ user.id }}" data-role="ROLE_ADMIN" class="btn btn-secondary">ADMIN</button>
+                            <button  data-id="{{ user.id }}" data-role="ROLE_MODERATOR" class="btn btn-primary">MODERATEUR</button>
+                            <button data-id="{{ user.id }}" data-role="ROLE_USER" class="btn btn-info">USER</button>
+                        </div>
+                     </td>
+                     
+            {% endfor %}
+
+        </tbody> 
+        
+    </table>
+
+    <div class="d-flex">
+
+        <div class="m-auto pt-2">
+
+            {{ knp_pagination_render(users) }}
+
+        
+        </div>
+    
+    </div>
+
+
+{% endblock %}

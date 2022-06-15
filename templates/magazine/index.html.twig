@@ -101,10 +101,12 @@
                             
                         <td><a href="{{ path('app_magazine_edit', { id:magazine.id }) }}"><button class="btn btn-warning">Editer</button></a></td>
                         <td>
-                            <form action="{{ path('app_magazine_delet', { id:magazine.id }) }}" method="post">
-                                <input type="hidden" name='token' value="{{ csrf_token('delet-magazine-'~ magazine.id) }}">
-                                <button class='btn btn-danger'type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
-                            </form>
+                
+                       <form action="{{ path('magazine_delete', { id: magazine.id }) }}" method="post" class="d-inline">
+                            <input type="hidden" name="token" value="{{ csrf_token('delete-magazine-'~ magazine.id) }}">
+                            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                 
                             
                         </td>
                     {% endif %}

@@ -53,14 +53,6 @@ class Magazine
     )]
     private $profileFile;
 
-    #[ORM\OneToMany(mappedBy: 'magazine', targetEntity: Stock::class)]
-    private $stocks;
-
-    public function __construct()
-    {
-        $this->yes = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -167,34 +159,5 @@ class Magazine
         return $this;
     }
 
-   /**
-     * @return Collection<int, Stock>
-     */
-    public function getStocks(): Collection
-    {
-        return $this->stocks;
-    }
-
-    public function addStock(Stock $stock): self
-    {
-        if (!$this->stocks->contains($stock)) {
-            $this->stocks[] = $stock;
-            $stock->setMagazine($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStock(Stock $stock): self
-    {
-        if ($this->stocks->removeElement($stock)) {
-            // set the owning side to null (unless already changed)
-            if ($stock->getMagazine() === $this) {
-                $stock->setMagazine(null);
-            }
-        }
-
-        return $this;
-    }
    
 }

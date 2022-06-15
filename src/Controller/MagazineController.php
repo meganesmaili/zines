@@ -140,6 +140,7 @@ class MagazineController extends AbstractController
     //Suppression d'une categorie
 
     #[Route('/categorie/delet/{id}', name:'app_categorie_delet', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function remove(Categorie $categorie, Request $request, CategorieRepository $categorieRepository): RedirectResponse
     {
         $tokenCsrf = $request->request->get('token');
@@ -210,15 +211,16 @@ class MagazineController extends AbstractController
     }
 
     //Suppression d'un magazine
-    #[Route('/magazine/delet/{id}', name:'app_magazine_delet', requirements: ['id' => '\d+'], methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Route('/magazine/delete/{id}', name:'magazine_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+
     public function delete(Magazine $magazine, Request $request, MagazineRepository $magazineRepository): RedirectResponse
     {
 		// Récupère le jeton CSRF généré dans le formulaire
         $tokenCsrf = $request->request->get('token');
 
 		// Vérifie si le jeton est correct avant d'effectuer une suppression
-        if ($this->isCsrfTokenValid('delet-magazine-'. $magazine->getId(), $tokenCsrf)) {
+        if ($this->isCsrfTokenValid('delete-magazine-'. $magazine->getId(), $tokenCsrf)) {
 
 			// Supprimer en BDD les données en lui passant l'objet de l'entité.
 			// Le second paramètre est à mettre à "true", sinon les données sont seulement persistées et non supprimées.
@@ -229,26 +231,12 @@ class MagazineController extends AbstractController
         }
 
 		// Redirige l'utilisateur vers une autre page selon le nom de la route
-        return $this->redirectToRoute('app_magazine');
+        return $this->redirectToRoute('app_home_magazine');
     }
 
     // Stocks
     
-    #[Route('/stock', name: 'app_stock')]
-    public function stocks(StockRepository $stockRepository, PaginatorInterface $paginatorInterface, Request $request): Response
-    {
 
-        // Création de la pagination de résultats
-        $stocks = $paginatorInterface->paginate(
-            $stockRepository->findAll(), // Requête SQL/DQL
-            $request->query->getInt('page', 1), // Numérotation des pages
-            $request->query->getInt('numbers', 6) // Nombre d'éléments à afficher par page 
-        );
-
-        return $this->render('magazine/stock.html.twig', [
-            'stocks' => $stocks,
-        ]);
-    }
     
     
    
